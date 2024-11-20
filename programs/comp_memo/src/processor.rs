@@ -5,11 +5,8 @@ use borsh::BorshSerialize;
 use light_hasher::{Hasher, Poseidon};
 use light_sdk::{
     address::{derive_address, NewAddressParams},
-    compressed_account::{
-        CompressedAccount, CompressedAccountData, OutputCompressedAccountWithPackedContext,
-    },
-    merkle_context::{AddressMerkleContext, MerkleOutputContext},
-    program_merkle_context::unpack_address_merkle_context,
+    compressed_account::{CompressedAccount, CompressedAccountData},
+    merkle_context::AddressMerkleContext,
 };
 
 use {
@@ -132,10 +129,9 @@ mod tests {
     use super::*;
     use borsh::BorshSerialize;
     use light_hasher::{Hasher, Poseidon};
-    use light_sdk::merkle_context::{AddressMerkleContext, MerkleOutputContext};
+    use light_sdk::merkle_context::AddressMerkleContext;
     use {
-        super::*, solana_account_info::AccountInfo, solana_account_info::IntoAccountInfo,
-        solana_program_error::ProgramError, solana_pubkey::Pubkey as SolanaPubkey,
+        solana_account_info::AccountInfo, solana_pubkey::Pubkey as SolanaPubkey,
         solana_sdk::account::Account as SolanaAccount,
     };
     #[test]
