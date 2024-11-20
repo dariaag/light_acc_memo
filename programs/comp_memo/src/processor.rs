@@ -182,8 +182,8 @@ mod tests {
         let program_id = Pubkey::new_unique();
 
         let address_merkle_context = AddressMerkleContext {
-            address_merkle_tree_pubkey: pubkey!("11111111111111111111111111111111"),
-            address_queue_pubkey: pubkey!("22222222222222222222222222222222222222222222"),
+            address_merkle_tree_pubkey: Pubkey::new_unique(),
+            address_queue_pubkey: Pubkey::new_unique(),
         };
 
         let address_merkle_tree_root_index = 0;
