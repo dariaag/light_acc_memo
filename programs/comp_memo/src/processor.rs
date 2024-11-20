@@ -64,12 +64,17 @@ pub fn create_compressed_account_with_memo(
     let memo = from_utf8(input);
 
     if memo.is_err() {
-        return Err(MemoProgramError::MemoTooLarge.into());
+        return Err(MemoProgramError::InvalidInputData.into());
     }
 
     let data = input.try_to_vec()?;
     //has data input
-    let data_hash = Poseidon::hash(input).unwrap();
+    let data_hash_result = Poseidon::hash(input);
+
+    if data_hash_result.is_err() {
+        return Err(MemoProgramError::HashingFailed.into());
+    }
+    let data_hash = data_hash_result.unwrap();
 
     let compressed_account_data = CompressedAccountData {
         discriminator: *discriminator,
@@ -224,18 +229,6 @@ mod tests {
         assert_eq!(data_hash_in_account, &expected_data_hash);
         println!("DATA HASH: {:?}", data_hash_in_account);
         println!("EXP DATA HASH: {:?}", expected_data_hash);
-
-        /*   let expected_address = derive_address(
-            &address_seed,
-            &unpack_address_merkle_context(address_merkle_context, remaining_accounts),
-        );
-        assert_eq!(
-            compressed_account_output
-                .compressed_account
-                .address
-                .unwrap(),
-            expected_address
-        ); */
 
         assert_eq!(compressed_account_output.owner, program_id);
 
