@@ -9,11 +9,8 @@ crate-type = ["cdylib", "lib"]
 name = "comp_memo"
 
 [features]
-default = []
-cpi = ["no-entrypoint"]
 no-entrypoint = []
-no-idl = []
-no-log-ix-name = []
+test-sbf = []
 idl-build = ["anchor-lang/idl-build"]
 
 [dependencies]

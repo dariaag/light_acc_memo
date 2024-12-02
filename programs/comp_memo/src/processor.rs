@@ -1,7 +1,6 @@
 //! Program state processor
 
 use anchor_lang::prelude::*;
-use borsh::BorshSerialize;
 use light_hasher::{Hasher, Poseidon};
 use light_sdk::{
     address::{derive_address, NewAddressParams},
@@ -9,12 +8,23 @@ use light_sdk::{
     merkle_context::AddressMerkleContext,
 };
 
+use borsh::{BorshDeserialize, BorshSerialize};
 use {
     solana_account_info::AccountInfo as SolanaAccountInfo, solana_msg::msg,
     solana_program_entrypoint::ProgramResult,
     solana_program_error::ProgramError as SolanaProgramError,
     solana_pubkey::Pubkey as SolanaPubkey, std::str::from_utf8,
 };
+
+#[derive(BorshSerialize, BorshDeserialize, Debug)]
+pub enum MemoInstruction {
+    CreateCompressedAccountWithMemo {
+        discriminator: [u8; 8],
+        address_seed: [u8; 32],
+        address_merkle_tree_root_index: u16,
+        memo: Vec<u8>,
+    },
+}
 
 #[allow(missing_docs)]
 #[error_code]
